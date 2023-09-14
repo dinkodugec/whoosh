@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 /* echo phpinfo(); */
 
@@ -6,6 +6,7 @@
 
 $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $requestPath = $_SERVER['REQUEST_URI'] ?? '/';
+/* var_dump($requestPath); die(); */
 
 if($requestMethod === 'GET' and $requestPath === '/whoosh/'){
     print <<< html
@@ -48,8 +49,10 @@ $routes = [
     array_keys($routes['head'])
    );     
   
-
+   
    if(isset($routes[$requestMethod], $routes[$requestMethod][$requestPath])){
      $routes[$requestMethod][$requestPath];
    }
-?>
+
+   var_dump( $routes[$requestMethod][$requestPath]); die();
+?> -->
