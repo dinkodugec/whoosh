@@ -41,7 +41,7 @@ class Route
 
         return $this->name;
     }
-
+ 
     public function matches(string $method, string $path): bool
     {
         if (
