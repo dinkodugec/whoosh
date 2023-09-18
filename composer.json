@@ -10,6 +10,9 @@
         "Framework\\": "framework"
       }
     },
+    "files": [
+      "framework/helpers.php"
+    ],
     "config": {
       "process-timeout": 0
     }
