@@ -11,13 +11,13 @@ class Router
     protected array $errorHandlers = [];
     protected Route $current;
 
-    public function add(string $method, string $path, callable $handler): Route
+    public function add(string $method, string $path, $handler): Route
     {
         $route = $this->routes[] = new Route($method, $path, $handler);
         return $route;
     }
 
-    public function errorHandler(int $code, callable $handler)
+    public function errorHandler(int $code, $handler)
     {
         $this->errorHandlers[$code] = $handler;
     }
@@ -38,6 +38,18 @@ class Router
                 return $matching->dispatch();
             }
             catch (Throwable $e) {
+                if ($e instanceof ValidationException) {
+                    $_SESSION['errors'] = $e->getErrors();
+                    return redirect($_SERVER['HTTP_REFERER']);
+                }
+
+                if (isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'dev') {
+                    $whoops = new Run();
+                    $whoops->pushHandler(new PrettyPageHandler);
+                    $whoops->register();
+                    throw $e;
+                }
+
                 return $this->dispatchError();
             }
         }
@@ -48,7 +60,6 @@ class Router
         
         return $this->dispatchNotFound();
     }
-
     private function paths(): array
     {
         $paths = [];
